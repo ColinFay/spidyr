@@ -1,0 +1,18 @@
+{
+  "name": "spidyr",
+  "version": "1.0.0",
+  "description": "Toolkit for working with webR in NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --detectOpenHandles --forceExit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webr": "^0.2.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
