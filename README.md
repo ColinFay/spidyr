@@ -1,19 +1,29 @@
 ## spidyr
 
+[EXPERIMENTAL] Do not use in prod
+
 Tools for extending `webR` in `NodeJS`.
 
 Note that `spidyr` is designed to work with `webrcli`.
 
+<https://github.com/ColinFay/webrcli>
+
 ## Load a webR library (downloaded with `webrcli`)
 
 ```bash
-webrcli install dplyr
+mkdir spongebob
+cd spongebob
+npm init -y
+npm install webr spidyr
+webrcli install spongebob
 ```
 
 ```javascript
-const { loadPackages } = require('webrtools');
+const path = require('path');
+const { loadPackages, Library } = require('spidyr');
 const { WebR } = require('webr');
 const webR = new WebR();
+const spongebob = new Library("spongebob");
 
 (async () => {
 
@@ -24,37 +34,51 @@ const webR = new WebR();
     path.join(__dirname, 'webr_packages')
   )
 
-  await globalThis.webR.evalR("library(dplyr)");
+  await spongebob.load(
+    webR
+  )
+
+  const said = await spongebob.tospongebob("Hello world")
+
+  console.log(said.values)
 })();
 ```
 
-## Load a local R package (contained in a folder) and call it from webR
+## To load from a local folder containing an R package
+
+Provided you have your funs in `./rfuns` (default after `webrcli init`)
 
 ```javascript
-const { loadPackages } = require('webrtools');
+const path = require('path');
 const { WebR } = require('webr');
-const webR = new WebR();
+const { loadPackages, LibraryFromLocalFolder } = require('spidyr');
+
+const rfuns = new LibraryFromLocalFolder("rfuns");
+
 
 (async () => {
 
-  await webR.init();
+  console.log("👉 Loading WebR ----");
+  globalThis.webR = new WebR();
+  await globalThis.webR.init();
+
+  console.log("👉 Loading R packages ----");
 
   await loadPackages(
-    webR,
+    globalThis.webR,
     path.join(__dirname, 'webr_packages')
   )
 
-  await globalThis.webR.FS.mkdir("/home/rfuns")
+  await rfuns.mountAndLoad(
+    globalThis.webR,
+    path.join(__dirname, 'rfuns')
+  );
 
-  await globalThis.webR.FS.mount(
-    "NODEFS",
-    {
-      root: path.join(__dirname, 'rfuns')
-    },
-    "/home/rfuns"
-  )
+  const hw = await rfuns.hello_world()
 
-  await globalThis.webR.evalR("options(expressions=1000)")
-  await globalThis.webR.evalR("pkgload::load_all('/home/rfuns')");
+  console.log(hw.values);
+
+  console.log("✅ Everything is ready!");
+
 })();
 ```
