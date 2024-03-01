@@ -1,6 +1,6 @@
 ## spidyr
 
-[EXPERIMENTAL] Do not use in prod
+[EXPERIMENTAL] Do not use
 
 Tools for extending `webR` in `NodeJS`.
 
