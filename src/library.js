@@ -28,10 +28,9 @@ class LibraryFromLocalFolder extends Library{
     const pkg_in_lib = await webR.evalRBoolean(`"pkgload" %in% rownames(installed.packages())`);
 
     if (!pkg_in_lib) {
-      console.log("Installing {pkgload} ----")
-      console.log("To avoid this, you can install {pkgload} with `spidycli install pkgload`.")
-      console.log("Then use `spidyr.loadPackages`.")
-      await webR.evalR(`install.packages("pkgload")`);
+      console.error("\n❌ {pkgload} is required")
+      console.error("👉 Please run `webrcli install pkgload`.\n")
+      throw new Error("{pkgload} is required")
     }
 
     const libraryPath = `/home/${this.lib}`;
