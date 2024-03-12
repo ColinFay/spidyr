@@ -1,6 +1,6 @@
 {
   "name": "spidyr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Toolkit for working with webR in NodeJS",
   "main": "index.js",
   "scripts": {
