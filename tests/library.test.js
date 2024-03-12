@@ -11,8 +11,12 @@ test('library works', async () => {
 
   expect(lib.lib).toBe('utils');
   expect(lib.namespace).toContain('head');
+
   expect(lib.head).toBeDefined();
 
+  const tools = new Library('tools');
+  await tools.load(webR);
+  expect(tools.namespace).toContain('toTitleCase');
   await webR.close();
 
 });
