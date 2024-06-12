@@ -1,7 +1,11 @@
 const load = require('./src/load.js')
-const library = require('./src/library.js')
-
 exports.loadPackages = load.loadPackages;
 
-exports.Library = library.Library
-exports.LibraryFromLocalFolder = library.LibraryFromLocalFolder
+const library = require('./src/library.js')
+exports.LibraryFromPackage = library.LibraryFromPackage;
+exports.LibraryFromLocalFolder = library.LibraryFromLocalFolder;
+exports.mountLocalPackage = library.mountLocalPackage;
+exports.library = library.library;
+
+const init = require('./src/init.js')
+exports.initSpidyr = init.initSpidyr
