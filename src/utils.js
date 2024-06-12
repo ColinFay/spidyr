@@ -15,7 +15,7 @@ const checkIsInstalled = async function(library_to_check){
     return true;
   }
   console.error("❌ {" + library_to_check + "} is required")
-  console.error(`👉 Please run 'webrcli install ${library_to_check}.\n`)
+  console.error(`👉 Please run 'webrcli install ${library_to_check}'\n`)
   throw new Error(`${library_to_check} is required`)
 }
 
