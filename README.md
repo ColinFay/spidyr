@@ -18,6 +18,8 @@ npm install webr spidyr
 webrcli install spongebob
 ```
 
+Add an index.js with:
+
 ```javascript
 const { initSpidyr, library } = require('spidyr');
 
@@ -44,13 +46,10 @@ const { initSpidyr, mountLocalPackage } = require('spidyr');
 
   await initSpidyr()
 
-  await mountLocalPackage("./rfuns");
+  const rfuns = await mountLocalPackage("./rfuns");
 
   const hw = await rfuns.hello_world()
 
   console.log(hw.values);
-
-  console.log("✅ Everything is ready!");
-
 })();
 ```
