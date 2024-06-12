@@ -2,37 +2,39 @@
 
 const { WebR } = require('webr');
 const { loadPackages } = require('../src/load.js');
-const webR = new WebR();
-
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
 test('loadPackages works', async () => {
-  await webR.init();
+  globalThis.spidyr_webR = new WebR();
+  await globalThis.spidyr_webR.init()
 
   // create temp dir
   const dirPath = path.join(os.tmpdir(), 'temp');
 
-  if (!fs.existsSync(dirPath)){
-    fs.mkdirSync(dirPath);
-    // create a file in the temp dir
-    fs.writeFileSync(path.join(dirPath, 'test.txt'), 'Hello, World!');
+  if (fs.existsSync(dirPath)){
+    fs.rmdirSync(dirPath, { recursive: true });
   }
+  fs.mkdirSync(dirPath);
+  fs.writeFileSync(
+    path.join(dirPath, 'test.txt'),
+     'Hello, World!'
+  );
 
-  await loadPackages(webR, dirPath);
+  await loadPackages(dirPath);
 
-  const libPaths = await webR.evalR('.libPaths()');
-  const libPathsJS = await libPaths.toJs()
+  const libPathsJS = await globalThis.spidyr_webR.evalRRaw('.libPaths()','string[]');
   expect(
-    libPathsJS.values
+    libPathsJS
     ).toContain(
       '/usr/lib/R/webr_packages'
    );
 
-  const contains = await webR.evalRBoolean('file.exists("/usr/lib/R/webr_packages/test.txt")');
+  const contains = await globalThis.spidyr_webR.evalRBoolean('file.exists("/usr/lib/R/webr_packages/test.txt")');
+
   expect(contains).toBe(true);
 
-  await webR.close();
+  await globalThis.spidyr_webR.close();
 }
 );

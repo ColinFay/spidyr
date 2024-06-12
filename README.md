@@ -18,25 +18,16 @@ npm install webr spidyr
 webrcli install spongebob
 ```
 
+Add an index.js with:
+
 ```javascript
-const path = require('path');
-const { loadPackages, Library } = require('spidyr');
-const { WebR } = require('webr');
-const webR = new WebR();
-const spongebob = new Library("spongebob");
+const { initSpidyr, library } = require('spidyr');
 
 (async () => {
 
-  await webR.init();
+  await initSpidyr()
 
-  await loadPackages(
-    webR,
-    path.join(__dirname, 'webr_packages')
-  )
-
-  await spongebob.load(
-    webR
-  )
+  const spongebob = await library("spongebob")
 
   const said = await spongebob.tospongebob("Hello world")
 
@@ -49,36 +40,16 @@ const spongebob = new Library("spongebob");
 Provided you have your funs in `./rfuns` (default after `webrcli init`)
 
 ```javascript
-const path = require('path');
-const { WebR } = require('webr');
-const { loadPackages, LibraryFromLocalFolder } = require('spidyr');
-
-const rfuns = new LibraryFromLocalFolder("rfuns");
-
+const { initSpidyr, mountLocalPackage } = require('spidyr');
 
 (async () => {
 
-  console.log("👉 Loading WebR ----");
-  globalThis.webR = new WebR();
-  await globalThis.webR.init();
+  await initSpidyr()
 
-  console.log("👉 Loading R packages ----");
-
-  await loadPackages(
-    globalThis.webR,
-    path.join(__dirname, 'webr_packages')
-  )
-
-  await rfuns.mountAndLoad(
-    globalThis.webR,
-    path.join(__dirname, 'rfuns')
-  );
+  const rfuns = await mountLocalPackage("./rfuns");
 
   const hw = await rfuns.hello_world()
 
   console.log(hw.values);
-
-  console.log("✅ Everything is ready!");
-
 })();
 ```
