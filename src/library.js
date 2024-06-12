@@ -76,7 +76,7 @@ class LibraryFromLocalFolder extends LibraryFromPackage {
     // // see https://github.com/r-wasm/webr/issues/292
     await globalThis.spidyr_webR.evalR("options(expressions=1000)")
     await globalThis.spidyr_webR.evalR(`pkgload::load_all('/home/${this.lib}')`);
-    // await this.load();
+    await this.load();
   }
 
 }
