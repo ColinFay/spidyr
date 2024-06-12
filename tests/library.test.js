@@ -59,7 +59,7 @@ test('mountLocalPackage works', async () => {
     await globalThis.spidyr_webR.init();
     await globalThis.spidyr_webR.evalR("webr::install('pkgload', repos = 'https://repo.r-wasm.org/')");
 
-    await mountLocalPackage(
+    const rfuns = await mountLocalPackage(
       path.join(
         __dirname,
         'fixtures',
@@ -73,6 +73,10 @@ test('mountLocalPackage works', async () => {
     expect(
       has_test_package
     ).toBe(true)
+
+    expect(
+      rfuns.namespace
+    ).toContain('hello_world')
 
     await globalThis.spidyr_webR.close();
   }
