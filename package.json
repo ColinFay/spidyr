@@ -1,10 +1,10 @@
 {
   "name": "spidyr",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Toolkit for working with webR in NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --forceExit"
+    "test": "jest --coverage --silent --detectOpenHandles --forceExit"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,6 @@
 ## spidyr
 
-[EXPERIMENTAL] Do not use
+[Work in Progress] Please consider the API unstable until v1.0.0 is reached.
 
 Tools for extending `webR` in `NodeJS`.
 
@@ -52,4 +52,18 @@ const { initSpidyr, mountLocalPackage } = require('spidyr');
 
   console.log(hw.values);
 })();
+```
+
+## Tools
+
+The `shareEnv` function allows to copy one, severals, or all environment variables from the Node process to webR.
+
+```javascript
+// All
+await shareEnv()
+
+// One
+await shareEnv(
+ "PWD"
+)
 ```

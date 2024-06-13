@@ -14,7 +14,7 @@ test('initSpidyr works', async () => {
   const dirPath = path.join(os.tmpdir(), 'webr_packages');
 
   if (fs.existsSync(dirPath)) {
-    fs.rmdirSync(dirPath, { recursive: true });
+    fs.rmSync(dirPath, { recursive: true });
   }
   fs.mkdirSync(dirPath);
   fs.writeFileSync(
