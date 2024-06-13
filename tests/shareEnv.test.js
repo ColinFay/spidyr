@@ -19,6 +19,33 @@ test('shareEnv works with one env', async () => {
 
 })
 
+test('shareEnv works with two env', async () => {
+  globalThis.spidyr_webR = new WebR();
+  await globalThis.spidyr_webR.init();
+
+  await shareEnv(
+    [
+      Object.keys(process.env)[1],
+      Object.keys(process.env)[2]
+    ]
+  )
+  const is_in = await globalThis.spidyr_webR.evalRRaw(
+    `Sys.getenv()`,
+    "string[]"
+  )
+
+  expect(is_in).toContain(
+    Object.keys(process.env)[1]
+  );
+
+  expect(is_in).toContain(
+    Object.keys(process.env)[2]
+  );
+
+  await globalThis.spidyr_webR.close();
+
+})
+
 test('shareEnv works with all env', async () => {
   globalThis.spidyr_webR = new WebR();
   await globalThis.spidyr_webR.init();
