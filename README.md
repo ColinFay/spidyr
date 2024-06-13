@@ -53,3 +53,17 @@ const { initSpidyr, mountLocalPackage } = require('spidyr');
   console.log(hw.values);
 })();
 ```
+
+## Tools
+
+The `shareEnv` function allows to copy one, severals, or all environment variables from the Node process to webR.
+
+```javascript
+// All
+await shareEnv()
+
+// One
+await shareEnv(
+ "PWD"
+)
+```
