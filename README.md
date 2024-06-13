@@ -1,6 +1,6 @@
 ## spidyr
 
-[EXPERIMENTAL] Do not use
+[Work in Progress] Please consider the API unstable until v1.0.0 is reached.
 
 Tools for extending `webR` in `NodeJS`.
 
