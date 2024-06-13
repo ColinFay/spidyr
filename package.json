@@ -4,7 +4,7 @@
   "description": "Toolkit for working with webR in NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --silent --detectOpenHandles"
+    "test": "jest --coverage --silent --detectOpenHandles --forceExit"
   },
   "keywords": [],
   "author": "",
