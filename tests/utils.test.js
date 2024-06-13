@@ -39,5 +39,5 @@ test("checkIsInstalled works", async () => {
     }
   ).rejects.toThrow("blabla is required");
 
-
+  await globalThis.spidyr_webR.close()
 })
