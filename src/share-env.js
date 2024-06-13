@@ -5,7 +5,7 @@ const shareEnv = async (envars) => {
   checkForSpidyrWebR();
 
   if (envars === undefined || envars === null) {
-    envars = process.env;
+    envars = Object.keys(process.env);
   }
 
   if (typeof envars === "string") {
@@ -13,10 +13,10 @@ const shareEnv = async (envars) => {
     envars = [envars];
   }
 
-  for (const key in envars) {
+  for (const key of envars) {
     try {
       await globalThis.spidyr_webR.evalR(
-        `Sys.setenv('${key}' = '${envars[key]}')`
+        `Sys.setenv('${key}' = '${process.env[key]}')`
       );
     } catch (error) {
       console.error(

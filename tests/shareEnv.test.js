@@ -6,13 +6,15 @@ test('shareEnv works with one env', async () => {
   globalThis.spidyr_webR = new WebR();
   await globalThis.spidyr_webR.init();
 
+  process.env["TEST_ENV"] = "test"
+
   await shareEnv(
-    Object.keys(process.env)[1]
+    "TEST_ENV"
   )
-  const is_in = await globalThis.spidyr_webR.evalRRaw(`Sys.getenv()`, "string[]")
+  const is_in = await globalThis.spidyr_webR.evalRRaw(`names(Sys.getenv())`, "string[]")
 
   expect(is_in).toContain(
-    Object.keys(process.env)[1]
+    "TEST_ENV"
   );
 
   await globalThis.spidyr_webR.close();
@@ -23,23 +25,25 @@ test('shareEnv works with two env', async () => {
   globalThis.spidyr_webR = new WebR();
   await globalThis.spidyr_webR.init();
 
+  process.env["TEST_ENV2"] = "test"
+
   await shareEnv(
     [
-      Object.keys(process.env)[1],
-      Object.keys(process.env)[2]
+      "TEST_ENV",
+      "TEST_ENV2"
     ]
   )
   const is_in = await globalThis.spidyr_webR.evalRRaw(
-    `Sys.getenv()`,
+    `names(Sys.getenv())`,
     "string[]"
   )
 
   expect(is_in).toContain(
-    Object.keys(process.env)[1]
+    "TEST_ENV"
   );
 
   expect(is_in).toContain(
-    Object.keys(process.env)[2]
+    "TEST_ENV2"
   );
 
   await globalThis.spidyr_webR.close();
@@ -49,17 +53,25 @@ test('shareEnv works with two env', async () => {
 test('shareEnv works with all env', async () => {
   globalThis.spidyr_webR = new WebR();
   await globalThis.spidyr_webR.init();
-
+  process.env["TEST_ENV3"] = "test"
   await shareEnv()
 
-  const is_in = await globalThis.spidyr_webR.evalRBoolean(`"${Object.keys(process.env)[0]}" %in% names(Sys.getenv())`)
+  const is_in = await globalThis.spidyr_webR.evalRRaw(
+    `names(Sys.getenv())`,
+    "string[]"
+  )
 
+  expect(is_in).toContain(
+    "TEST_ENV"
+  );
 
-  expect(is_in).toBe(true);
+  expect(is_in).toContain(
+    "TEST_ENV2"
+  );
 
-  const is_in_bis = await globalThis.spidyr_webR.evalRBoolean(`"${process.env[0]}" %in% unname(Sys.getenv())`)
-
-  expect(is_in_bis).toBe(true);
+  expect(is_in).toContain(
+    "TEST_ENV3"
+  );
 
   await globalThis.spidyr_webR.close();
 
